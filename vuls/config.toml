@@ -1,0 +1,10 @@
+[servers]
+  [servers.dev]
+    user = "vuls-saas"
+    host = "localhost"
+    port = "local"
+    scanMode = ["fast-root"]
+    [servers.dev.wordpress]
+      cmdPath = "/usr/local/bin/wp"
+      osUser = "root"
+      docRoot = "/var/www/html/"

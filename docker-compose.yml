@@ -1,0 +1,36 @@
+version: "3"
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: mysql-myproject
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: dbname
+      MYSQL_USER: dbuser
+      MYSQL_PASSWORD: dbpass
+    networks: 
+      - network
+
+  wordpress:
+    depends_on:
+      - mysql
+    build: .
+    container_name: wordpress-myproject
+    ports:
+      - 8080:80
+    environment:
+      WORDPRESS_DB_HOST: mysql
+      WORDPRESS_DB_NAME: dbname
+      WORDPRESS_DB_USER: dbuser
+      WORDPRESS_DB_PASSWORD: dbpass
+    volumes:
+      - ./data/wp-content:/var/www/html/wp-content
+      - ./wp-install.sh:/tmp/wp-install.sh
+    networks: 
+      - network
+
+networks:
+  network:
+    driver: bridge
